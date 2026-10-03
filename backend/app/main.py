@@ -44,6 +44,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# ── Startup Event — Auto-seed Database on Server Initialization ─────────────
+@app.on_event("startup")
+def startup_seed_database():
+    logger.info("🌱 Server initializing: Executing database auto-seeding...")
+    try:
+        from seed_data import run_seed
+        run_seed()
+        logger.info("✅ Database seeding verified on server initialization.")
+    except Exception as e:
+        logger.error(f"⚠️ Database auto-seeding failed on startup: {e}", exc_info=True)
+
 # ── CORS ──────────────────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
