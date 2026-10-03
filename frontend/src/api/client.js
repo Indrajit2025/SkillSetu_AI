@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '/api';
+let rawUrl = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '/api').trim().replace(/\/+$/, '');
+
+// Ensure /api suffix is attached for FastAPI router endpoints
+const API_BASE_URL = (rawUrl === '' || rawUrl === '/api') 
+  ? '/api' 
+  : (rawUrl.endsWith('/api') ? rawUrl : `${rawUrl}/api`);
 
 const api = axios.create({
   baseURL: API_BASE_URL,

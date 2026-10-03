@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     # Defaults to SQLite local file for zero-config out-of-the-box run, easily overriden to PostgreSQL via .env
     DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./skillsetu.db")
     
-    # CORS
+    # CORS Origins: reads from env var CORS_ORIGINS or allows all origins for deployment flexibility
     CORS_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://localhost:5173",
